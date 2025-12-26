@@ -1,7 +1,7 @@
 name: HeartDiseaseProject
+
 entry_points:
   main:
     parameters:
       n_estimators: {type: int, default: 50}
     command: "python modelling_tuning.py"
-
