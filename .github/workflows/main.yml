@@ -17,7 +17,8 @@ jobs:
           python-version: '3.12.7'
 
       - name: Install dependencies
-        run: pip install mlflow pandas scikit-learn dagshub
+        run: |
+          pip install mlflow pandas scikit-learn dagshub seaborn matplotlib
 
       - name: Run mlflow project
         env:
