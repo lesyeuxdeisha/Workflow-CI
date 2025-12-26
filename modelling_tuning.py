@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 
 # Inisialisasi DagsHub (Syarat Advance)
-dagshub.init(repo_owner='lesyeuxdeisha', repo_name='Eksperimen_SML_AisyahRidhoAlhaqRifai_Siswa', mlflow=True)
+# dagshub.init(repo_owner='lesyeuxdeisha', repo_name='Eksperimen_SML_AisyahRidhoAlhaqRifai_Siswa', mlflow=True)
 
 # Memuat data sesuai folder kamu
 df = pd.read_csv('heart_disease_preprocessing/heart_disease_clean.csv') 
@@ -43,5 +43,6 @@ with mlflow.start_run(run_name="Advance_Model_Aisyah"):
     pd.Series(model.feature_importances_, index=X.columns).nlargest(10).plot(kind='barh')
     plt.savefig("feature_importance.png")
     mlflow.log_artifact("feature_importance.png")
+
 
     print(f"Berhasil! Akurasi: {acc}")
