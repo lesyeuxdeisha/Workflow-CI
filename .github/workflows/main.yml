@@ -1,24 +1,42 @@
-name: Docker Build and Push
+name: Heart Disease Workflow CI
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build:
+  training_and_push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
+      - name: Set up Python 3.12.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+
+      - name: Install dependencies
+        run: |
+          pip install mlflow pandas scikit-learn dagshub
+
+      # --- TAHAPAN WAJIB TRAINING (BASIC) ---
+      - name: Run mlflow project
+        env:
+          MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+        run: |
+          mlflow run . --no-conda
+
+      # --- TAHAPAN DOCKER (ADVANCED) ---
       - name: Login to Docker Hub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker Image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true
