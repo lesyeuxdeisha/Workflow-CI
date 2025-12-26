@@ -1,5 +1,4 @@
 name: HeartDiseaseProject
-
 entry_points:
   main:
     parameters:
